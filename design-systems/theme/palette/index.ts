@@ -1,0 +1,15 @@
+export {
+  type TypeCommonPalette,
+  type TypeHexColorPalette,
+  type TypeAugmentColorPalette,
+  type TypeCustomColorPalette,
+  type TypeStatePalette,
+  commonPalette,
+  lightHexColorPalette,
+  darkHexColorPalette,
+  hexColorPalette,
+  getAugmentColorPalette,
+  customColorPalette,
+  getStatePalette,
+  statePalette,
+} from '@/core/design-systems/theme/palette/palette.const';
