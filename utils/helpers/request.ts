@@ -1,10 +1,9 @@
-import { isRedirectError } from 'next/dist/client/components/redirect';
-import { generateLanguage } from '@/shared/consts/common/language';
 import { CustomNetworkError, NetworkMetadata } from '@/core/utils/errors/custom-network-error';
 import { Logger } from '@/core/utils/helpers/Logger';
-import { getClientLang, getClientUUID } from '@/core/utils/helpers/request-helper.client';
-import { getServerLang, getServerUUID } from '@/core/utils/helpers/request-helper.server';
-import { getSession } from '@/shared/configs/next-auth/next-auth.server';
+import { getClientLang } from '@/core/utils/helpers/request-helper.client';
+import { getServerLang } from '@/core/utils/helpers/request-helper.server';
+
+import { generateLanguage } from '@/shared/consts/common/language';
 
 enum Operation {
   GET = 'get',
@@ -21,12 +20,12 @@ type RequestConfig = RequestInit & {
 
 const createHeaders = async (): Promise<HeadersInit> => {
   const isServer = typeof window === 'undefined';
-  const uuid = isServer ? await getServerUUID() : getClientUUID();
+  // const uuid = isServer ? await getServerUUID() : getClientUUID();
   const lang = isServer ? await getServerLang() : getClientLang();
   const { currencyCode, languageCode, regionCode } = generateLanguage(lang);
 
   return {
-    'X-Acon-St': uuid,
+    // 'X-Acon-St': uuid,
     'X-Acon-Language': languageCode.value,
     'X-Acon-Currency': currencyCode.name,
     'X-Acon-Region': regionCode.name,
@@ -97,7 +96,7 @@ const request = async <T>(method: Operation, url: string, body?: unknown, config
 };
 
 const requestWithAuth = async <T>(method: Operation, url: string, body?: unknown, config: RequestConfig = {}): Promise<T> => {
-  const session = await getSession();
+  // const session = await getSession();
   const headers = await createHeaders();
 
   const isFile = body instanceof File;
@@ -119,15 +118,15 @@ const requestWithAuth = async <T>(method: Operation, url: string, body?: unknown
   };
 
   try {
-    if (!session) {
-      // session은 반드시 존재하여야 함
-      throw new Error(`Session Not Found - ${session}`);
-    }
+    // if (!session) {
+    //   // session은 반드시 존재하여야 함
+    //   throw new Error(`Session Not Found - ${session}`);
+    // }
 
-    if (!session.accessToken) {
-      // access token은 반드시 존재하여야 함
-      throw new Error(`accessToken Not Found - ${session.accessToken}`);
-    }
+    // if (!session.accessToken) {
+    //   // access token은 반드시 존재하여야 함
+    //   throw new Error(`accessToken Not Found - ${session.accessToken}`);
+    // }
 
     const response = await fetch(url, {
       method: method.toUpperCase(),
@@ -135,7 +134,7 @@ const requestWithAuth = async <T>(method: Operation, url: string, body?: unknown
         // 변경 금지 - 멀티파트 업로드시 'Content-Type' 헤더 자동으로 세팅되려면 비어있어야함.
         ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
         ...headers,
-        Authorization: `Bearer ${session.accessToken}`,
+        // Authorization: `Bearer ${session.accessToken}`,
       },
       body: processedBody,
       ...config,
@@ -155,7 +154,7 @@ const requestWithAuth = async <T>(method: Operation, url: string, body?: unknown
       responseBody = text as unknown as T; // 텍스트 응답 처리
     } else {
       responseBody = await response.json().catch(() => null);
-      Response
+      Response;
     }
 
     if (!response.ok) {
@@ -183,9 +182,9 @@ const requestErrorHandler = (error: unknown) => {
   } else {
     console.error('Unexpected Error:', error);
     logger.error(`${error}`);
-    if (isRedirectError(error)) {
-      logger.error(`RedirectError`);
-    }
+    // if (isRedirectError(error)) {
+    //   logger.error(`RedirectError`);
+    // }
   }
 };
 

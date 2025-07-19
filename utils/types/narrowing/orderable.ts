@@ -1,6 +1,7 @@
 import { OrderableType } from '@/core/shared/service/enum/orderable-type';
-import { AssetOrderableOutput } from '@/core/shared/service/output/aseet-orderable-output';
-import { SerialOrderableOutput } from '@/core/shared/service/output/serial-orderable-output';
+
+// import { AssetOrderableOutput } from '@/core/shared/service/output/aseet-orderable-output';
+// import { SerialOrderableOutput } from '@/core/shared/service/output/serial-orderable-output';
 
 /**
  * @description 주문 상품 구분에 따른 타입 Narrowing 유틸리티
@@ -22,14 +23,14 @@ import { SerialOrderableOutput } from '@/core/shared/service/output/serial-order
  */
 type HasOrderableFields = {
   orderableType: OrderableType;
-  orderable: AssetOrderableOutput | SerialOrderableOutput;
+  // orderable: AssetOrderableOutput | SerialOrderableOutput;
 };
 
 type OrderableTypeToOutputMap = {
-  [OrderableType.ASSET]: AssetOrderableOutput;
-  [OrderableType.SERIAL]: SerialOrderableOutput;
+  // [OrderableType.ASSET]: AssetOrderableOutput;
+  // [OrderableType.SERIAL]: SerialOrderableOutput;
 };
 
-export function isOrderableType<T extends OrderableType, U extends HasOrderableFields>(item: U, type: T): item is U & { orderable: OrderableTypeToOutputMap[T] } {
+export function isOrderableType<T extends OrderableType, U extends HasOrderableFields>(item: U, type: T): item is U & { orderable: any[T] } {
   return item.orderableType === type;
 }

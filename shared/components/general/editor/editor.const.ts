@@ -1,7 +1,6 @@
+import { TypeEditorOptions } from '@/core/shared/hooks/display/use-editor/use-editor.type';
 import { OutputData, ToolConstructable, ToolSettings } from '@editorjs/editorjs';
 import striptags from 'striptags';
-import { TypeEditorOptions } from '@/core/shared/hooks/display/use-editor/use-editor.type';
-import COMMON_APIS from '@/core/shared/service/common/common.service';
 
 export const EditorViewerClassNames = {
   header: {
@@ -80,8 +79,8 @@ export const editorToolsConfigs: TypeEditorTools = {
 
       uploader: {
         uploadByFile: async (file: File) => {
-          const { data } = await COMMON_APIS['editor/upload-image'].post({ file });
-          return { success: 1, file: { url: data.url } };
+          // const { data } = await COMMON_APIS['editor/upload-image'].post({ file });
+          // return { success: 1, file: { url: data.url } };
         },
         uploadByUrl: async (url: string) => {
           return {
@@ -177,8 +176,8 @@ export const getTools = async (input: TypeEditorOptions['tools'] = {}) => {
     await Promise.all(
       (Object.keys(input) as EnumSupportEditorTool[])
         .filter((key) => input[key] && toolModules[key])
-        .map(async (key) => [key, { ...editorToolsConfigs[key], class: (await toolModules[key]()).default }]),
-    ),
+        .map(async (key) => [key, { ...editorToolsConfigs[key], class: (await toolModules[key]()).default }])
+    )
   ) as TypeEditorTools;
 };
 

@@ -1,8 +1,9 @@
 import { Nullable } from '@/core/utils/types/selector/flexible';
-import { PresignedUploadedComponent } from '@/core/shared/service/input/presigned-input/presigned-uploaded-component';
-import { ApplicationOutput } from '@/core/shared/service/output/application-output';
-import { AssetOutput } from '@/core/shared/service/output/asset-output';
-import { ExtensionOutput } from '@/core/shared/service/output/extension-output';
+
+// import { PresignedUploadedComponent } from '@/core/shared/service/input/presigned-input/presigned-uploaded-component';
+// import { ApplicationOutput } from '@/core/shared/service/output/application-output';
+// import { AssetOutput } from '@/core/shared/service/output/asset-output';
+// import { ExtensionOutput } from '@/core/shared/service/output/extension-output';
 
 export type EnumAssetUploadStatus = (typeof EnumAssetUploadStatus)[keyof typeof EnumAssetUploadStatus];
 export const EnumAssetUploadStatus = {
@@ -13,9 +14,9 @@ export const EnumAssetUploadStatus = {
 
 export type TypeAssetUploadOptions = {
   initialStructure?: Partial<TypeAssetUploadStructure>;
-  applications: ApplicationOutput[];
-  extensions: ExtensionOutput[];
-  asset: AssetOutput;
+  applications: any[];
+  extensions: any[];
+  asset: any;
   accept?: Array<React.InputHTMLAttributes<HTMLInputElement>['accept']>;
   onStart?: (values: TypeAssetUploadStructure) => void;
   onFinally?: (values: TypeAssetUploadStructure) => void;
@@ -27,7 +28,7 @@ export type TypeAssetUploadStructure = {
   status: Nullable<EnumAssetUploadStatus>;
   extensionIds: number[];
   applicationIds: number[];
-  fileComponents?: PresignedUploadedComponent[];
+  fileComponents?: any[];
   percentage: number;
 };
 

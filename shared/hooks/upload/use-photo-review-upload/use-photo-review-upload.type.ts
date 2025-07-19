@@ -1,6 +1,4 @@
 import { Nullable, Optional } from '@/core/utils/types/selector/flexible';
-import { ImageOutput } from '@/core/shared/service/output/image-output';
-import { ProductImageOutput } from '@/core/shared/service/output/product-image-output';
 
 export type EnumPhotoReviewUploadStatus = (typeof EnumPhotoReviewUploadStatus)[keyof typeof EnumPhotoReviewUploadStatus];
 export const EnumPhotoReviewUploadStatus = {
@@ -11,7 +9,7 @@ export const EnumPhotoReviewUploadStatus = {
 
 export type TypePhotoReviewUploadOptions = {
   initialStructure?: Partial<TypePhotoReviewUploadStructure>;
-  image?: ProductImageOutput;
+  image?: any;
   accept?: Array<React.InputHTMLAttributes<HTMLInputElement>['accept']>;
   isUploadOnly?: boolean;
   onStart?: (values: TypePhotoReviewUploadStructure) => void;
@@ -25,6 +23,6 @@ export type TypePhotoReviewUploadStructure = {
   percentage: number;
 };
 
-export interface TypePhotoReviewUploadConfig extends Omit<ImageOutput, 'url'> {
+export interface TypePhotoReviewUploadConfig extends Omit<any, 'url'> {
   url: Optional<URL>;
 }

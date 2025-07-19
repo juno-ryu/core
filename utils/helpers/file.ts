@@ -1,8 +1,9 @@
-import { unzip, ZipEntry } from 'unzipit';
 import APPLICATIONS from '@/core/utils/yup/data/applications';
-import { PresignedUploadedComponent } from '@/core/shared/service/input/presigned-input/presigned-uploaded-component';
-import { ApplicationOutput } from '@/core/shared/service/output/application-output';
-import { ExtensionOutput } from '@/core/shared/service/output/extension-output';
+import { ZipEntry, unzip } from 'unzipit';
+
+// import { PresignedUploadedComponent } from '@/core/shared/service/input/presigned-input/presigned-uploaded-component';
+// import { ApplicationOutput } from '@/core/shared/service/output/application-output';
+// import { ExtensionOutput } from '@/core/shared/service/output/extension-output';
 
 export const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '0 B';
@@ -14,28 +15,18 @@ export const formatFileSize = (bytes: number): string => {
 
 export type TypeUnpackOptions = {
   inputFile: File;
-  extensions: ExtensionOutput[];
-  applications: ApplicationOutput[];
+  extensions: any[];
+  applications: any[];
 };
 
 export type TypeUnpackResult = {
   newFileNames: string[];
-  newFileComponents?: PresignedUploadedComponent[];
+  newFileComponents?: any[];
   newExtensions: number[];
   newApplications: number[];
 };
 
-export const extractInfo = ({
-  fileName,
-  fileSize,
-  extensions,
-  applications,
-}: {
-  fileName: string;
-  fileSize?: number;
-  extensions: ExtensionOutput[];
-  applications: ApplicationOutput[];
-}) => {
+export const extractInfo = ({ fileName, fileSize, extensions, applications }: { fileName: string; fileSize?: number; extensions: any[]; applications: any[] }) => {
   const extension = '.' + fileName.split('.').pop()?.toLowerCase();
   const extensionId = extensions.find((x) => x.name === extension)?.id;
   const application = APPLICATIONS[extension.replace('.', '')] || [];
@@ -43,11 +34,11 @@ export const extractInfo = ({
   return { fileName, fileSize, extensionId, applicationId };
 };
 
-export const readFile = ({ file, extensions, applications }: { file: File; extensions: ExtensionOutput[]; applications: ApplicationOutput[] }) => {
+export const readFile = ({ file, extensions, applications }: { file: File; extensions: any[]; applications: any[] }) => {
   return extractInfo({ fileName: file.name, extensions, applications });
 };
 
-export const readZipEntry = ({ entry, extensions, applications }: { entry: ZipEntry; extensions: ExtensionOutput[]; applications: ApplicationOutput[] }) => {
+export const readZipEntry = ({ entry, extensions, applications }: { entry: ZipEntry; extensions: any[]; applications: any[] }) => {
   if (entry.isDirectory) return null;
   if (entry.name.match(/^__MACOSX\//)) return null;
   let fileName = entry.name;
@@ -81,7 +72,7 @@ export const unpackFile = async ({ inputFile, extensions, applications }: TypeUn
 export const unpackZip = async ({ inputFile, extensions, applications }: TypeUnpackOptions): Promise<TypeUnpackResult | undefined> => {
   try {
     const newFileNames: string[] = [];
-    const newFileComponents: PresignedUploadedComponent[] = [];
+    const newFileComponents: any[] = [];
     const newExtensions: number[] = [];
     const newApplications: number[] = [];
     const zip = await unzip(inputFile);

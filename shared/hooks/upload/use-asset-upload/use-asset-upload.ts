@@ -1,16 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+
+import { INITIAL_ASSET_UPLOAD_CONFIG, INITIAL_ASSET_UPLOAD_STRUCTURE } from '@/core/shared/hooks/upload/use-asset-upload/use-asset-upload.const';
+import { EnumAssetUploadStatus, TypeAssetUploadConfig, TypeAssetUploadOptions, TypeAssetUploadStructure } from '@/core/shared/hooks/upload/use-asset-upload/use-asset-upload.type';
 import { unpackFile, unpackZip } from '@/core/utils/helpers/file';
 import { Uploader } from '@/core/utils/helpers/uploader';
-import { INITIAL_ASSET_UPLOAD_CONFIG, INITIAL_ASSET_UPLOAD_STRUCTURE } from '@/core/shared/hooks/upload/use-asset-upload/use-asset-upload.const';
-import {
-  EnumAssetUploadStatus,
-  TypeAssetUploadConfig,
-  TypeAssetUploadOptions,
-  TypeAssetUploadStructure,
-} from '@/core/shared/hooks/upload/use-asset-upload/use-asset-upload.type';
-import COMMON_APIS from '@/core/shared/service/common/common.service';
-import HUB_APIS from '@/core/shared/service/hub/hub.service';
-import { PresignedUploadedComponent } from '@/core/shared/service/input/presigned-input/presigned-uploaded-component';
 
 const useAssetUpload = (options: TypeAssetUploadOptions) => {
   const { initialStructure, applications, extensions, asset, accept = [], onStart, onFinally, onReset } = options;
@@ -70,29 +63,30 @@ const useAssetUpload = (options: TypeAssetUploadOptions) => {
   const onUploadComplete = async (options: {
     config: TypeAssetUploadConfig;
     newFileNames: string[];
-    newFileComponents: PresignedUploadedComponent[];
+    // newFileComponents: PresignedUploadedComponent[];
+    newFileComponents: any[];
     newExtensions: number[];
     newApplications: number[];
   }) => {
     const { config, newFileComponents, newExtensions, newApplications } = options;
     if (!config.clientname || !config.fileKey) return;
 
-    const response = await HUB_APIS['assets'].post({
-      name: config.clientname,
-      files: [{ clientname: config.clientname, fileKey: config.fileKey, components: newFileComponents }],
-      extensionIds: newExtensions,
-      applicationIds: newApplications,
-    });
+    // const response = await HUB_APIS['assets'].post({
+    //   name: config.clientname,
+    //   files: [{ clientname: config.clientname, fileKey: config.fileKey, components: newFileComponents }],
+    //   extensionIds: newExtensions,
+    //   applicationIds: newApplications,
+    // });
 
-    setStructure((prev) => ({
-      ...prev,
-      config: { ...config, id: response.data.id, assetId: response.data.id },
-      status: EnumAssetUploadStatus.SUCCESS,
-      extensionIds: newExtensions,
-      applicationIds: newApplications,
-      fileComponents: newFileComponents,
-      percentage: 100,
-    }));
+    // setStructure((prev) => ({
+    //   ...prev,
+    //   config: { ...config, id: response.data.id, assetId: response.data.id },
+    //   status: EnumAssetUploadStatus.SUCCESS,
+    //   extensionIds: newExtensions,
+    //   applicationIds: newApplications,
+    //   fileComponents: newFileComponents,
+    //   percentage: 100,
+    // }));
   };
 
   const onUploadMulti = async (options: { inputFile: File }): Promise<string> => {
@@ -100,8 +94,13 @@ const useAssetUpload = (options: TypeAssetUploadOptions) => {
     return new Promise((resolve, reject) => {
       uploaderRef.current = new Uploader({
         file: inputFile,
-        initializeUploadFn: COMMON_APIS['multipart-upload/init'].post,
-        completeUploadFn: COMMON_APIS['multipart-upload/complete'].post,
+        initializeUploadFn: async (fileName: string, partCount: number) => {
+          // Provide a dummy InitOutputData object or replace with actual logic
+          return { data: {} as any };
+        },
+        completeUploadFn: async () => {},
+        // initializeUploadFn: COMMON_APIS['multipart-upload/init'].post,
+        // completeUploadFn: COMMON_APIS['multipart-upload/complete'].post,
       });
       uploaderRef.current
         .onProgress(({ percentage }) => {
@@ -131,10 +130,11 @@ const useAssetUpload = (options: TypeAssetUploadOptions) => {
   const onUploadSingle = async (options: { inputFile: File }): Promise<string> => {
     const { inputFile } = options;
     const clientname = inputFile.name;
-    const response = await COMMON_APIS['upload/presigned'].post(clientname);
-    await COMMON_APIS['upload/presigned'].put(response.data.signedUrl, inputFile);
-    if (!response.data.fileKey) throw new Error('File key is undefined');
-    return response.data.fileKey;
+    // const response = await COMMON_APIS['upload/presigned'].post(clientname);
+    // await COMMON_APIS['upload/presigned'].put(response.data.signedUrl, inputFile);
+    // if (!response.data.fileKey) throw new Error('File key is undefined');
+    // return response.data.fileKey;
+    return new Promise((resolve, reject) => {});
   };
 
   const onUploadDrop = async (event: React.DragEvent) => {
@@ -170,10 +170,10 @@ const useAssetUpload = (options: TypeAssetUploadOptions) => {
 
   const onUploadDownload = async (assetId: string) => {
     if (!assetId) return;
-    const response = await COMMON_APIS['assets/:assetId/download-url'].post(assetId);
-    for (const [downloadId, url] of Object.entries(response.data)) {
-      window.open(url, '_blank');
-    }
+    // const response = await COMMON_APIS['assets/:assetId/download-url'].post(assetId);
+    // for (const [downloadId, url] of Object.entries(response.data)) {
+    //   window.open(url, '_blank');
+    // }
   };
 
   useEffect(() => {

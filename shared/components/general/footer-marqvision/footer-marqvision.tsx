@@ -1,4 +1,5 @@
-import { Button, DesignIcon, hexColorPalette, Link, Stack, theme, Typography } from '@/core/design-systems';
+import { Button, DesignIcon, Link, Stack, Typography, hexColorPalette } from '@/core/design-systems';
+import { theme } from '@/core/design-systems/design-systems';
 import Picture from '@/core/shared/components/general/picture/picture';
 
 const FooterMarqvision = () => {

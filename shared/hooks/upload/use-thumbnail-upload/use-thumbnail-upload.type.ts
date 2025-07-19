@@ -1,7 +1,4 @@
 import { Nullable } from '@/core/utils/types/selector/flexible';
-import { ImageInput } from '@/core/shared/service/input/promotion-input/image-input';
-import { ImageOutput } from '@/core/shared/service/output/image-output';
-import { ProductImageOutput } from '@/core/shared/service/output/product-image-output';
 
 export type EnumThumbnailUploadStatus = (typeof EnumThumbnailUploadStatus)[keyof typeof EnumThumbnailUploadStatus];
 export const EnumThumbnailUploadStatus = {
@@ -12,7 +9,7 @@ export const EnumThumbnailUploadStatus = {
 
 export type TypeThumbnailUploadOptions = {
   initialStructure?: Partial<TypeThumbnailUploadStructure>;
-  image?: ProductImageOutput & ImageOutput;
+  image?: any;
   accept?: Array<React.InputHTMLAttributes<HTMLInputElement>['accept']>;
   onStart?: (values: TypeThumbnailUploadStructure) => void;
   onFinally?: (values: TypeThumbnailUploadStructure) => void;

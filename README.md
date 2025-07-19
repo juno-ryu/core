@@ -38,7 +38,7 @@ git clone https://github.com/juno-ryu/core.git
 
 ### 코드 스타일
 
-- `core/design-systems`의 컴포넌트를 사용하고, 정의된 베리언트, 토큰, 색상 팔레트를 따릅니다.
+- `core/design-systems/components`의 컴포넌트를 우선적으로 사용하고, 정의된 베리언트, 토큰, 색상 팔레트를 따릅니다.
 - `core/design-systems/theme/palette/palette.const.ts` 파일에 색상 팔렛트가 정의 되어 있습니다.
 - `core/design-systems/theme/breakpoint/breakpoint.const.ts` 파일에 브레이크 포인트 설정 관련 내용이 정의되어 있습니다.
 - `core/design-systems/components/typography/typography.const.ts` 파일에 타이포 그래피 관련 variant token 들이 정의 되어 있습니다.

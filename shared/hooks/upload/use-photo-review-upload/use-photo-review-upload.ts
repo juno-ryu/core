@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import { readImageBlob } from '@/core/utils/helpers/file';
-import { Uploader } from '@/core/utils/helpers/uploader';
+
 import { INITIAL_PHOTO_REVIEW_UPLOAD_STRUCTURE } from '@/core/shared/hooks/upload/use-photo-review-upload/use-photo-review-upload.const';
 import {
   EnumPhotoReviewUploadStatus,
   TypePhotoReviewUploadOptions,
   TypePhotoReviewUploadStructure,
 } from '@/core/shared/hooks/upload/use-photo-review-upload/use-photo-review-upload.type';
-import ACON_APIS from '@/core/shared/service/acon/acon.service';
-import { ImageOutput } from '@/core/shared/service/output/image-output';
+import { readImageBlob } from '@/core/utils/helpers/file';
+import { Uploader } from '@/core/utils/helpers/uploader';
 
 const usePhotoReviewUpload = (options: TypePhotoReviewUploadOptions) => {
   const { initialStructure, image, accept = [], isUploadOnly, onStart, onFinally, onReset } = options;
@@ -64,13 +63,13 @@ const usePhotoReviewUpload = (options: TypePhotoReviewUploadOptions) => {
     }
   };
 
-  const onUploadSingle = async (options: { inputFile: File }): Promise<ImageOutput> => {
+  const onUploadSingle = async (options: { inputFile: File }): Promise<any> => {
     const { inputFile } = options;
-    const { data: imageOutput } = await ACON_APIS['products/review/upload-image'].post({ file: inputFile });
+    // const { data: imageOutput } = await ACON_APIS['products/review/upload-image'].post({ file: inputFile });
 
-    if (!imageOutput) throw new Error('Failed to upload image');
+    // if (!imageOutput) throw new Error('Failed to upload image');
 
-    return imageOutput;
+    return {};
   };
 
   const onUploadDrop = async (event: React.DragEvent) => {

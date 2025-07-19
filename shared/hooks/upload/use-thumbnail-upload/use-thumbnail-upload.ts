@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { readImageBlob, readImageSize } from '@/core/utils/helpers/file';
-import { Uploader } from '@/core/utils/helpers/uploader';
+
 import { INITIAL_THUMBNAIL_UPLOAD_CONFIG, INITIAL_THUMBNAIL_UPLOAD_STRUCTURE } from '@/core/shared/hooks/upload/use-thumbnail-upload/use-thumbnail-upload.const';
 import {
   EnumThumbnailUploadStatus,
@@ -8,7 +7,8 @@ import {
   TypeThumbnailUploadOptions,
   TypeThumbnailUploadStructure,
 } from '@/core/shared/hooks/upload/use-thumbnail-upload/use-thumbnail-upload.type';
-import COMMON_APIS from '@/core/shared/service/common/common.service';
+import { readImageBlob, readImageSize } from '@/core/utils/helpers/file';
+import { Uploader } from '@/core/utils/helpers/uploader';
 
 const useThumbnailUpload = (options: TypeThumbnailUploadOptions) => {
   const { initialStructure, image, accept = [], onStart, onFinally, onReset } = options;
@@ -81,43 +81,44 @@ const useThumbnailUpload = (options: TypeThumbnailUploadOptions) => {
   const onUploadMulti = async (options: { inputFile: File }): Promise<string> => {
     const { inputFile } = options;
     return new Promise((resolve, reject) => {
-      uploaderRef.current = new Uploader({
-        file: inputFile,
-        initializeUploadFn: COMMON_APIS['multipart-upload/init'].post,
-        completeUploadFn: COMMON_APIS['multipart-upload/complete'].post,
-      });
-      uploaderRef.current
-        .onProgress(({ percentage }) => {
-          if (Math.abs(percentage - percentageRef.current) >= 5) {
-            percentageRef.current = percentage;
-            setStructure((prev) => ({
-              ...prev,
-              percentage: percentage,
-            }));
-          }
-        })
-        .onError((error) => {
-          return reject(new Error(`Failed multipart upload - ${error}`));
-        })
-        .onComplete(() => {
-          setStructure((prev) => ({
-            ...prev,
-            percentage: 100,
-          }));
-          if (!uploaderRef.current?.fileKey) return reject(new Error('File key is null'));
-          return resolve(uploaderRef.current.fileKey);
-        });
-      uploaderRef.current.start();
+      // uploaderRef.current = new Uploader({
+      //   file: inputFile,
+      //   initializeUploadFn: COMMON_APIS['multipart-upload/init'].post,
+      //   completeUploadFn: COMMON_APIS['multipart-upload/complete'].post,
+      // });
+      // uploaderRef.current
+      //   .onProgress(({ percentage }) => {
+      //     if (Math.abs(percentage - percentageRef.current) >= 5) {
+      //       percentageRef.current = percentage;
+      //       setStructure((prev) => ({
+      //         ...prev,
+      //         percentage: percentage,
+      //       }));
+      //     }
+      //   })
+      //   .onError((error) => {
+      //     return reject(new Error(`Failed multipart upload - ${error}`));
+      //   })
+      //   .onComplete(() => {
+      //     setStructure((prev) => ({
+      //       ...prev,
+      //       percentage: 100,
+      //     }));
+      //     if (!uploaderRef.current?.fileKey) return reject(new Error('File key is null'));
+      //     return resolve(uploaderRef.current.fileKey);
+      //   });
+      // uploaderRef.current.start();
     });
   };
 
   const onUploadSingle = async (options: { inputFile: File }): Promise<string> => {
     const { inputFile } = options;
     const clientname = inputFile.name;
-    const response = await COMMON_APIS['upload/presigned'].post(clientname);
-    await COMMON_APIS['upload/presigned'].put(response.data.signedUrl, inputFile);
-    if (!response.data.fileKey) throw new Error('File key is undefined');
-    return response.data.fileKey;
+    // const response = await COMMON_APIS['upload/presigned'].post(clientname);
+    // await COMMON_APIS['upload/presigned'].put(response.data.signedUrl, inputFile);
+    // if (!response.data.fileKey) throw new Error('File key is undefined');
+    // return response.data.fileKey;
+    return '';
   };
 
   const onUploadDrop = async (event: React.DragEvent) => {
