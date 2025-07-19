@@ -3,6 +3,7 @@
 ## 저장소 클론 및 설정
 
 `codebase`를 통한 프로젝트 구성 후, 아래 `core` 저장소를 클론하세요.
+
 `codebase`의 `package.json`내부에 workspaces를 구성하여 사용하세요.
 
 ```bash
