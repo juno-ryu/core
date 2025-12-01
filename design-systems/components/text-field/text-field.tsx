@@ -9,7 +9,11 @@ import { TextFieldComponent, TextFieldProps } from '@/core/design-systems/compon
 
 // do: children
 // do-not: ref, component
-const TextField = (props: TextFieldProps) => {
+const TextField = (props: TextFieldProps | null | undefined) => {
+  // props가 null이나 undefined일 경우 빈 객체로 처리
+  if (!props) {
+    return null;
+  }
   const { success, error, disabled, helperText = [], children, ...restProps } = props;
 
   const rootClassList = Array.from(generatedClassList('MuiTextField', { success, error, disabled }, toPascalCase));

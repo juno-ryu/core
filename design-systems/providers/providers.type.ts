@@ -1,4 +1,7 @@
-import { EnumLanguageCode } from '@/shared/consts/common/language';
+import { LanguageCode } from '@/core/shared/service/enum/language-code';
+
+// 임시 타입 별칭
+type EnumLanguageCode = LanguageCode;
 
 export interface RootStyleCacheProps extends React.PropsWithChildren {
   //

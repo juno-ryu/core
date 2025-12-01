@@ -1,6 +1,9 @@
-import { css } from '@emotion/react';
+import { css } from "@emotion/react";
 
-import { EnumLanguageCode } from '@/shared/consts/common/language';
+import { LanguageCode } from "@/core/shared/service/enum/language-code";
+
+// 임시 타입 별칭
+type EnumLanguageCode = LanguageCode;
 
 export const globalStyles = (lang: EnumLanguageCode) => css`
   html,
@@ -24,8 +27,8 @@ export const globalStyles = (lang: EnumLanguageCode) => css`
     font-family: ${lang === EnumLanguageCode.ZH
       ? 'arial, "pingfang sc", "microsoft yahei" !important'
       : lang === EnumLanguageCode.JA
-        ? '"Pretendard JP Variable", Pretendard JP !important'
-        : '"Pretendard Variable", Pretendard !important'};
+      ? '"Pretendard JP Variable", Pretendard JP !important'
+      : '"Pretendard Variable", Pretendard !important'};
   }
 
   body *,
@@ -78,9 +81,9 @@ export const globalStyles = (lang: EnumLanguageCode) => css`
     }
   }
   input {
-    &[type='button'],
-    &[type='reset'],
-    &[type='submit'] {
+    &[type="button"],
+    &[type="reset"],
+    &[type="submit"] {
       cursor: pointer;
     }
     &::placeholder {
@@ -123,7 +126,7 @@ export const globalStyles = (lang: EnumLanguageCode) => css`
     pointer-events: none;
 
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;

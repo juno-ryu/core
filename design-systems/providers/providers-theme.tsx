@@ -11,7 +11,6 @@ import { Global } from '@emotion/react';
 import { CssBaseline, PaletteMode } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import emotionReset from 'emotion-reset';
 
 const MUI_CACHE = createCache({ key: 'css', prepend: true });
 
@@ -37,7 +36,7 @@ const ThemeProvider = (props: ThemeProviderProps) => {
       <ThemeContext.Provider value={colorMode}>
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
-          <Global styles={[emotionReset, globalStyles(lang), globalFontFace(lang)]} />
+          <Global styles={[globalStyles(lang), globalFontFace(lang)]} />
           {children}
         </MuiThemeProvider>
       </ThemeContext.Provider>
